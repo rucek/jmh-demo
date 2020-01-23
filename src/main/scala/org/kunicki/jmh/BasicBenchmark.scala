@@ -2,7 +2,7 @@ package org.kunicki.jmh
 
 import org.openjdk.jmh.annotations.{Benchmark, BenchmarkMode, Fork, Measurement, Mode, Scope, State, Warmup}
 import org.openjdk.jmh.runner.Runner
-import org.openjdk.jmh.runner.options.{Options, OptionsBuilder}
+import org.openjdk.jmh.runner.options.{Options, OptionsBuilder, TimeValue}
 
 class BasicBenchmark {
 
@@ -16,7 +16,16 @@ class BasicBenchmark {
   }
 }
 
+/* Running from code using the Runner and OptionsBuilder */
 object BasicBenchmark extends App {
-  private val options: Options = new OptionsBuilder().build()
+
+  private val options: Options = new OptionsBuilder()
+    .mode(Mode.AverageTime)
+    .warmupIterations(3)
+    .warmupTime(TimeValue.seconds(2))
+    .measurementTime(TimeValue.seconds(5))
+    .forks(3)
+    .build()
+
   new Runner(options).run()
 }
